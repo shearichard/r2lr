@@ -3,8 +3,8 @@ import './App.css';
 
 class App extends Component {
   render() {
-    var helloWorld = 'Welcome to the Road to learn React';
-    var preamble = 'Well hello ...';
+    const helloWorld = 'Welcome to the Road to learn React';
+    const preamble = 'Well hello ...';
     return (
       <div className="App">
         <h2>{helloWorld}</h2>
