@@ -7,7 +7,7 @@ const list = [
     url: 'https://facebook.github.io/react/',
     author: 'Jordan Walke',
     num_comments: 3,
-    points: 9,
+    points: 8,
     objectID: 0,
   },
   {
@@ -15,16 +15,27 @@ const list = [
     url: 'https://github.com/reactjs/redux',
     author: 'Dan Abramov, Andrew Clark',
     num_comments: 2,
-    points: 9,
+    points: 8,
     objectID: 1,
   },
 ];
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    let mydt = new Date().toISOString();
+
+    this.state = {
+      list : list, 
+      rightnow : mydt,
+    }
+  }
   render() {
     return (
       <div className="App">
-        {list.map(item => 
+        <h2>{this.state.rightnow}</h2>
+        {this.state.list.map(item => 
             <div key={item.objectID}>
               <span>
                 <a href={item.url}>{item.title}</a>
