@@ -7,7 +7,7 @@ const list = [
     url: 'https://facebook.github.io/react/',
     author: 'Jordan Walke',
     num_comments: 3,
-    points: 8,
+    points: 7,
     objectID: 0,
   },
   {
@@ -15,7 +15,7 @@ const list = [
     url: 'https://github.com/reactjs/redux',
     author: 'Dan Abramov, Andrew Clark',
     num_comments: 2,
-    points: 8,
+    points: 7,
     objectID: 1,
   },
 ];
@@ -24,11 +24,11 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    let mydt = new Date().toISOString();
+    let rightnow = new Date().toISOString();
 
     this.state = {
-      list : list, 
-      rightnow : mydt,
+      list, 
+      rightnow,
     }
   }
   render() {
