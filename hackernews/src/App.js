@@ -7,7 +7,7 @@ const list = [
     url: 'https://facebook.github.io/react/',
     author: 'Jordan Walke',
     num_comments: 3,
-    points: 7,
+    points: 6,
     objectID: 0,
   },
   {
@@ -15,7 +15,7 @@ const list = [
     url: 'https://github.com/reactjs/redux',
     author: 'Dan Abramov, Andrew Clark',
     num_comments: 2,
-    points: 7,
+    points: 6,
     objectID: 1,
   },
 ];
@@ -75,6 +75,7 @@ class App extends Component {
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   render() {
+      const {searchTerm, list } = this.state;
       return (
           <div className="App">
               <form>
@@ -83,7 +84,7 @@ class App extends Component {
                   onChange={this.onSearchChange}
                 />
               </form>
-              {this.state.list.filter(isSearched(this.state.searchTerm)).map(item => {
+              {list.filter(isSearched(searchTerm)).map(item => {
                   //
                   const onHandleDismiss = () =>
                       this.onDismiss(item.objectID);
