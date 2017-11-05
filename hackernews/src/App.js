@@ -31,6 +31,28 @@ function isSearchedES5(searchTerm) {
 const isSearched = searchTerm => item =>
   item.title.toLowerCase().includes(searchTerm.toLowerCase());
 //
+// B U T T O N  C O M P O N E N T
+//
+class Button extends Component {
+  render() {
+    const {
+      onClick,
+      className = '',
+      children,
+    } = this.props;
+
+    return (
+      <button
+        onClick={onClick}
+        className={className}
+        type="button"
+      >
+        {children}
+      </button>
+    );
+  }
+}
+//
 // S E A R C H  C O M P O N E N T
 //
 class Search extends Component {
@@ -64,12 +86,9 @@ class Table extends Component {
             <span>{item.num_comments}</span>
             <span>{item.points}</span>
             <span>
-              <button
-                onClick={() => onDismiss(item.objectID)}
-                type="button"
-              >
+              <Button onClick={() => onDismiss(item.objectID)}>
                 Dismiss
-              </button>
+              </Button>
             </span>
           </div>
         )}
