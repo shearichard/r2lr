@@ -1,24 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 
-const list = [
-  {
-    title: 'React',
-    url: 'https://facebook.github.io/react/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 3,
-    objectID: 0,
-  },
-  {
-    title: 'Redux',
-    url: 'https://github.com/reactjs/redux',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 2,
-    objectID: 1,
-  },
-];
+
+const DEFAULT_QUERY = 'redux';
+
+const PATH_BASE = 'https://hn.algolia.com/api/v1';
+const PATH_SEARCH = '/search';
+const PARAM_SEARCH = 'query=';
 //
 //
 const largeColumn = {
@@ -33,15 +21,6 @@ const midSmallColumn = {
 const smallColumn = {
   width: '10%',
 };
-//
-//
-//isSearchedES5 is just illustrate how this would have been
-//implemented prior to ES6
-function isSearchedES5(searchTerm) {
-  return function(item) {
-    return item.title.toLowerCase().includes(searchTerm.toLowerCase());
-  }
-}
 //
 //
 const isSearched = searchTerm => item =>
@@ -100,17 +79,30 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    let rightnow = new Date().toISOString();
-
     this.state = {
-      list, 
-      rightnow,
-      searchTerm: '',
+      result: null,
+      searchTerm: DEFAULT_QUERY,
     };
 
+    this.setSearchTopStories = this.setSearchTopStories.bind(this);
+    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
 
+  }
+  setSearchTopStories(result){
+    this.setState({ result });
+  }
+
+  fetchSearchTopStories(searchTerm){
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+      .then(response => response.json())
+      .then(result => this.setSearchTopStories(result))
+      .catch(e => e);
+  }
+  componentDidMount() {
+    const { searchTerm } = this.state;
+    this.fetchSearchTopStories(searchTerm);
   }
   onSearchChange(event){
     this.setState({ searchTerm: event.target.value });
@@ -131,7 +123,10 @@ class App extends Component {
     this.setState({ list: updatedList });
   } 
   render() {
-      const {searchTerm, list } = this.state;
+      const {searchTerm, result } = this.state;
+
+      if (!result) { return null; }
+
       return (
         <div className="page">
           <div className="interactions">
@@ -142,7 +137,7 @@ class App extends Component {
               Search
             </Search>
             <Table 
-              list={list}
+              list={result.hits}
               pattern={searchTerm}
               onDismiss={this.onDismiss}
             />
