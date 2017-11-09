@@ -108,19 +108,11 @@ class App extends Component {
     this.setState({ searchTerm: event.target.value });
   } 
   onDismiss(id){
-    function isNotId(item) {
-      return item.objectID !== id;
-    }
-    // eslint-disable-next-line
-    const updatedList = this.state.list.filter(isNotId);
-    this.setState({ list: updatedList });
-  } 
-  //Equivalent (currently unused) to onDismiss but using arrow function
-  onDismissES6Style(id){
     const isNotId = item => item.objectID !== id;
-    // eslint-disable-next-line
-    const updatedList = this.state.list.filter(isNotId);
-    this.setState({ list: updatedList });
+    const updatedHits = this.state.result.hits.filter(isNotId);
+    this.setState({
+      result: { ...this.state.result, hits: updatedHits }
+    });
   } 
   render() {
       const {searchTerm, result } = this.state;
