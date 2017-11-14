@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import fetch from 'isomorphic-fetch'
 
 
 const DEFAULT_QUERY = 'redux';
@@ -216,3 +217,9 @@ class App extends Component {
   }
 }
 export default App;
+
+export {
+  Button, 
+  Search,
+  Table,
+}
