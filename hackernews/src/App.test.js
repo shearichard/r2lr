@@ -25,12 +25,20 @@ describe('App', () => {
 describe('Search', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Search/>, div);
+    ReactDOM.render(<Search
+                      onChange = {() => {}}
+                      onSubmit = {() => {}}
+                    >
+                    </Search>, div);
   });
 
   test('has a valid snapshot', () => {
     const component = renderer.create(
-      <Search/>
+      <Search
+        onChange = {() => {}}
+        onSubmit = {() => {}}
+      >
+      </Search>
     );
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
@@ -41,12 +49,21 @@ describe('Button', () => {
   
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Button/>, div);
+    ReactDOM.render(<Button
+                      onClick = {() => {}}
+                    >
+                    Fake1
+                    </Button>, div);
   });
 
   test('has a valid snapshot', () => {
     const component = renderer.create(
-      <Button/>
+      <Button
+        onClick = {() => {}}
+      >
+        Fake2
+      </Button>
+      
     );
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
@@ -56,6 +73,7 @@ describe('Button', () => {
     const element = shallow(
       <Button
         className="fooClass"
+        onClick = {() => {}}
       >
       Test Label
       </Button>
@@ -67,6 +85,7 @@ describe('Button', () => {
     const element = shallow(
       <Button
         className="fooClass"
+        onClick = {() => {}}
       >
       Test Label
       </Button>

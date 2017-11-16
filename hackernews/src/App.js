@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import fetch from 'isomorphic-fetch'
+import PropTypes from 'prop-types';
 
 
 const DEFAULT_QUERY = 'redux';
@@ -36,6 +37,13 @@ const Button = ({ onClick, className, children }) =>
   >
     {children}
   </button>
+
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+}
+
 //
 // S E A R C H  F U N C T I O N A L  S T A T E L E S S  C O M P O N E N T
 //
@@ -54,6 +62,12 @@ const Search = ({
     />
   </form>
 
+Search.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+}
 //
 //  T A B L E  F U N C T I O N A L  S T A T E L E S S  C O M P O N E N T
 //
@@ -78,6 +92,19 @@ const Table = ({ list, onDismiss }) =>
         </div>
       )}
     </div>
+
+Table.propTypes = {
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      objectID: PropTypes.string.isRequired,
+      author: PropTypes.string,
+      url: PropTypes.string,
+      num_comments: PropTypes.number,
+      points: PropTypes.number,
+    })
+  ).isRequired,
+  onDismiss : PropTypes.func.isRequired,
+}
 //
 //  A P P  C O M P O N E N T
 //
