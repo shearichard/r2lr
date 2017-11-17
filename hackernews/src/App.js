@@ -47,20 +47,40 @@ Button.propTypes = {
 //
 // S E A R C H  F U N C T I O N A L  S T A T E L E S S  C O M P O N E N T
 //
-const Search = ({ 
-  value, 
-  onChange, 
-  onSubmit, 
-  children 
-  }) =>
-  <form onSubmit={onSubmit}>
-    {children} <input
-      type='text'
-      value={value}
-      onChange={onChange}
-      
-    />
-  </form>
+class Search extends Component {
+
+  componentDidMount() {
+    if(this.input) { 
+      this.input.focus(); 
+    };
+  }
+
+  render() {
+    const {
+      value, 
+      onChange, 
+      onSubmit, 
+      children 
+    } = this.props;
+
+    return (
+      <form onSubmit={onSubmit}>
+        {children}
+        <input
+          type='text'
+          value={value}
+          onChange={onChange}
+          ref={ (node) => { this.input = node; } }
+        />
+        {
+        <button type="submit">
+          {children}
+        </button>        
+        }
+      </form>
+    );
+  }
+}
 
 Search.propTypes = {
   value: PropTypes.string,
