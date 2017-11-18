@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 
 const DEFAULT_QUERY = 'redux';
-const DEFAULT_HPP = '100';
+const DEFAULT_HPP = '10';
 
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
@@ -20,18 +20,12 @@ const largeColumn = {
 const midColumn = {
   width: '30%',
 };
-const midSmallColumn = {
-  width: '20%',
-};
 const smallColumn = {
   width: '10%',
 };
 //
-// L O A D I N G  C O M P O N E N T
 //
-const Loading = () =>
-  <div>Loading...</div>
-
+//
 //
 // B U T T O N  F U N C T I O N A L  S T A T E L E S S  C O M P O N E N T
 //
@@ -49,6 +43,21 @@ Button.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
+
+//
+// L O A D I N G  C O M P O N E N T
+//
+const Loading = () =>
+  <div>Loading...</div>
+
+const withLoading = (Component) => (props) =>
+  props.isLoading
+  ?
+  <Loading />
+  :
+  <Component { ...props } />
+
+const ButtonWithLoading = withLoading(Button);
 
 //
 // S E A R C H  F U N C T I O N A L  S T A T E L E S S  C O M P O N E N T
@@ -266,15 +275,11 @@ class App extends Component {
           />
         }
         <div className="interactions">
-          { 
-            isLoading
-            ?
-            <Loading />
-            :
-            <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
-              More
-            </Button>
-          }
+          <ButtonWithLoading
+            isLoading={isLoading}
+            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
+            More
+          </ButtonWithLoading>
         </div>
       </div>
     );
