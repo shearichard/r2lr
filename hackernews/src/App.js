@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
 import fetch from 'isomorphic-fetch'
+import { sortBy } from 'lodash';
 import PropTypes from 'prop-types';
+import './App.css';
 
 
 const DEFAULT_QUERY = 'redux';
@@ -104,11 +105,65 @@ Search.propTypes = {
   children: PropTypes.node.isRequired,
 }
 //
+// S O R T  C O M P O N E N T 
+//
+const Sort = ({ sortKey, onSort, children }) =>
+  <Button 
+    onClick={() => onSort(sortKey)}
+    className='button-inline'
+  >
+    {children}
+  </Button>
+//
 //  T A B L E  F U N C T I O N A L  S T A T E L E S S  C O M P O N E N T
 //
-const Table = ({ list, onDismiss }) =>
+//{list.map(item =>
+//
+const Table = ({ 
+    list, 
+    sortKey,
+    onSort,
+    onDismiss 
+    }) =>
     <div className="table">
-      {list.map(item =>
+      <div className="table-header">
+          <span style={{ width: '40%' }}>
+              <Sort
+              sortKey={'TITLE'}
+              onSort={ onSort }
+              >
+              Title
+              </Sort>
+          </span>
+          <span style={{ width: '30%' }}>
+              <Sort
+                  sortKey={'AUTHOR'}
+                  onSort={ onSort }
+              >
+              Author
+              </Sort>
+          </span>
+          <span style={{ width: '10%' }}>
+              <Sort
+                  sortKey={'COMMENTS'}
+                  onSort={ onSort }
+              >
+              Comments
+              </Sort>
+          </span>
+          <span style={{ width: '10%' }}>
+              <Sort
+                  sortKey={'POINTS'}
+                  onSort={ onSort }
+              >
+              Points
+              </Sort>
+          </span>
+          <span style={{ width: '10%' }}>
+              Archive
+          </span>
+      </div>
+      {SORTS[sortKey](list).map(item =>
         <div key={item.objectID} className="table-row">
           <span style={largeColumn}>
             <a href={item.url}>{item.title}</a>
@@ -140,6 +195,14 @@ Table.propTypes = {
   ).isRequired,
   onDismiss : PropTypes.func.isRequired,
 }
+
+const SORTS = {
+  NONE: list => list,
+  TITLE: list => sortBy(list, 'title'),
+  AUTHOR: list => sortBy(list, 'author'),
+  COMMENTS: list => sortBy(list, 'num_comments').reverse(),
+  POINTS: list => sortBy(list, 'points').reverse(),
+};
 //
 //  A P P  C O M P O N E N T
 //
@@ -153,6 +216,7 @@ class App extends Component {
       searchTerm: DEFAULT_QUERY,
       error: null,
       isLoading: false,
+      sortKey: 'NONE',
     };
 
     this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
@@ -161,7 +225,11 @@ class App extends Component {
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
+    this.onSort = this.onSort.bind(this);
 
+  }
+  onSort(sortKey) {
+    this.setState({ sortKey });
   }
   needsToSearchTopStories(searchTerm) {
     return !this.state.results[searchTerm];
@@ -235,7 +303,8 @@ class App extends Component {
       results,
       searchKey,
       error,
-      isLoading
+      isLoading,
+      sortKey
     } = this.state;
 
     const page = (
@@ -270,8 +339,10 @@ class App extends Component {
           </div>
           :
           <Table 
-            list={list}
-            onDismiss={this.onDismiss}
+            list={ list }
+            sortKey={ sortKey }
+            onSort={ this.onSort } 
+            onDismiss={ this.onDismiss }
           />
         }
         <div className="interactions">
