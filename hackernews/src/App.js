@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fetch from 'isomorphic-fetch'
 import { sortBy } from 'lodash';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import './App.css';
 
@@ -113,15 +114,15 @@ const Sort = ({
   onSort, 
   children 
   }) => {
-    const sortClass = ['button-inline'];
+    const sortClass = classNames(
+      'button-inline',
+      { 'button-active': sortKey === activeSortKey }
+    );
 
-    if (sortKey === activeSortKey) {
-      sortClass.push('button-active');
-    }
   return (
     <Button 
       onClick={() => onSort(sortKey)}
-      className={sortClass.join(' ')}
+      className={sortClass}
     >
       {children}
     </Button>
