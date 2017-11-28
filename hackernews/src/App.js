@@ -107,13 +107,27 @@ Search.propTypes = {
 //
 // S O R T  C O M P O N E N T 
 //
-const Sort = ({ sortKey, onSort, children }) =>
-  <Button 
-    onClick={() => onSort(sortKey)}
-    className='button-inline'
-  >
-    {children}
-  </Button>
+const Sort = ({ 
+  sortKey, 
+  activeSortKey,
+  onSort, 
+  children 
+  }) => {
+    const sortClass = ['button-inline'];
+
+    if (sortKey === activeSortKey) {
+      sortClass.push('button-active');
+    }
+  return (
+    <Button 
+      onClick={() => onSort(sortKey)}
+      className={sortClass.join(' ')}
+    >
+      {children}
+    </Button>
+  );
+}
+
 //
 //  T A B L E  F U N C T I O N A L  S T A T E L E S S  C O M P O N E N T
 //
@@ -135,6 +149,7 @@ const Table = ({
                 <Sort
                   sortKey={'TITLE'}
                   onSort={ onSort }
+                  activeSortKey={sortKey}
                 >
                 Title
                 </Sort>
@@ -143,6 +158,7 @@ const Table = ({
                 <Sort
                   sortKey={'AUTHOR'}
                   onSort={ onSort }
+                  activeSortKey={sortKey}
                 >
                 Author
                 </Sort>
@@ -151,6 +167,7 @@ const Table = ({
                 <Sort
                   sortKey={'COMMENTS'}
                   onSort={ onSort }
+                  activeSortKey={sortKey}
                 >
                 Comments
                 </Sort>
@@ -159,6 +176,7 @@ const Table = ({
                 <Sort
                   sortKey={'POINTS'}
                   onSort={ onSort }
+                  activeSortKey={sortKey}
                 >
                 Points
                 </Sort>
